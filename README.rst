@@ -78,12 +78,12 @@ new permanent token. To customize the expiration time and expiration accuracy, s
 As you may know, the content of a permanent token is a very fragile information, which should be sent along with a
 request only when it is needed. To avoid situations in which a front-end developer has incorrectly implemented the
 permanent token authentication on the front-end side and the permanent token value is sent with all requests
-(just like the JWT token), the ``jwt_devices.middlewares.PermitHeadersMiddleware`` comes in handy. The middleware looks
+(just like the JWT token), the ``jwt_devices.middleware.PermitHeadersMiddleware`` comes in handy. The middleware looks
 for the ``permanent_token`` in the headers, and checks if the view is not the
 ``jwt_devices.views.DeviceRefreshJSONWebToken`` in which the ``permanent_token`` header is obligatory, otherwise it
 returns a **400 Bad Request** error.
 
-To use the ``PermitHeadersMiddleware`` in your application, add ``jwt_devices.middlewares.PermitHeadersMiddleware``
+To use the ``PermitHeadersMiddleware`` in your application, add ``jwt_devices.middleware.PermitHeadersMiddleware``
 to your ``MIDDLEWARES`` or ``MIDDLEWARE_CLASSES`` (in Django <1.10) in Django settings.
 
 **Settings**
