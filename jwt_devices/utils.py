@@ -1,4 +1,6 @@
 import jwt
+from django.utils.translation import ugettext_lazy as _
+from rest_framework.exceptions import NotFound
 from rest_framework_jwt.settings import api_settings as rfj_settings
 
 from jwt_devices.models import Device
@@ -8,7 +10,10 @@ jwt_response_payload_handler = rfj_settings.JWT_RESPONSE_PAYLOAD_HANDLER
 
 
 def jwt_devices_get_secret_key(payload=None):
-    return Device.objects.get(pk=payload.get("device_id")).jwt_secret.hex
+    try:
+        return Device.objects.get(pk=payload.get("device_id")).jwt_secret.hex
+    except Device.DoesNotExist:
+        raise NotFound(_("Permanent token has expired."))
 
 
 def jwt_devices_payload_handler(user, device=None):

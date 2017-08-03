@@ -44,6 +44,13 @@ class ObtainJSONWebTokenTests(BaseTestCase):
         response = client.get("/devices/", format="json")
         self.assertEqual(response.status_code, 200)
 
+        device.delete()
+        # test login with unknown device
+        client.credentials(HTTP_AUTHORIZATION="JWT {}".format(token))
+        client.login(**self.data)
+        response = client.get("/devices/", format="json")
+        self.assertEqual(response.status_code, 404)
+
     def test_default_auth(self):
         # the app should allow using the old-style authentication
         api_settings.JWT_PERMANENT_TOKEN_AUTH = False
