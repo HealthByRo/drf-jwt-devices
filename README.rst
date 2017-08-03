@@ -28,7 +28,7 @@ To enable permanent token authentication, update rest framework's default authen
 Another step is to add a few urls to your url patterns, and register the ``DeviceViewSet``:
 ::
 
-  from rest_framework_jwt import views
+  from jwt_devices import views
 
   urlpatterns = [
       # ...
