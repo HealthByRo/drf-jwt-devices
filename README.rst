@@ -29,14 +29,17 @@ Another step is to add a few urls to your url patterns, and register the ``Devic
 ::
 
   from jwt_devices import views
+  from rest_framework.routers import DefaultRouter
 
+  router = DefaultRouter()
+  router.register(r'devices', views.DeviceViewSet)
+  
   urlpatterns = [
       # ...
       url(r'^device-refresh-token/$', views.device_refresh_token),
       url(r'^device-logout/$', views.device_logout)
-  ]
+  ] + router.urls
 
-  router.register(r'devices', views.DeviceViewSet)
 
 Using the API views
 -------------------
