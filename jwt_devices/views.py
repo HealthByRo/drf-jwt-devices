@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from rest_framework import mixins, status, viewsets
 from rest_framework.exceptions import NotFound
 from rest_framework.generics import DestroyAPIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_jwt.settings import api_settings as rfj_settings
@@ -23,6 +23,7 @@ class ObtainJSONWebTokenAPIView(OriginalObtainJSONWebToken):
     API view used to obtain a JWT token along with creating a new Device object and returning permanent token.
     """
     serializer_class = JSONWebTokenSerializer
+    permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -58,6 +59,7 @@ class DeviceRefreshJSONWebToken(APIView):
     API View used to refresh JSON Web Token using permanent token.
     """
     serializer_class = DeviceTokenRefreshSerializer
+    permission_classes = [AllowAny]
 
     def post(self, request):
         serializer = self.serializer_class(data=request.META)
