@@ -19,7 +19,7 @@ jwt_devices_response_payload_handler = api_settings.JWT_DEVICES_RESPONSE_PAYLOAD
 
 
 class ObtainJSONWebTokenAPIView(OriginalObtainJSONWebToken):
-    """
+    """Obtain JWT token
     API view used to obtain a JWT token along with creating a new Device object and returning permanent token.
     """
     serializer_class = JSONWebTokenSerializer
@@ -55,7 +55,7 @@ class ObtainJSONWebTokenAPIView(OriginalObtainJSONWebToken):
 
 
 class DeviceRefreshJSONWebToken(APIView):
-    """
+    """Refresh JWT token
     API View used to refresh JSON Web Token using permanent token.
     """
     serializer_class = DeviceTokenRefreshSerializer
