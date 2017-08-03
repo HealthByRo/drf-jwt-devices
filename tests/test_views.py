@@ -78,50 +78,61 @@ class DeviceLogoutViewTests(BaseTestCase):
         self.second_user = User.objects.create_user(
             self.username + "2", self.email + "2", self.password)
 
-    def test_logout_view(self):
+    def _create_device(self, client, device_name="Test", user_data=None):
+        # create device
+        headers = {"HTTP_X_DEVICE_MODEL": device_name}
+        client.credentials(**headers)
+        response = client.post("/auth-token/", user_data if user_data else self.data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        return response.data
+
+    def test_empty_device_id(self):
         client = APIClient()
 
-        # create device
-        headers = {"HTTP_X_DEVICE_MODEL": "Android 123"}
-        client.credentials(**headers)
-        response = client.post("/auth-token/", self.data, format="json")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        token = self._create_device(client)["token"]
+        client.credentials(HTTP_AUTHORIZATION="JWT {}".format(token))
         self.assertEqual(Device.objects.all().count(), 1)
-        device_id = response.data["device_id"]
-
-        headers["HTTP_AUTHORIZATION"] = "JWT {}".format(response.data["token"])
-        headers["HTTP_DEVICE_ID"] = device_id
-        client.credentials(**headers)
-        client.login(**self.data)
         response = client.delete("/device-logout/", format="json")
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(Device.objects.all().count(), 0)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(Device.objects.all().count(), 1)
 
     def test_logout_unknown_device(self):
         client = APIClient()
 
         # create a few devices
-        headers = {"HTTP_X_DEVICE_MODEL": "Android 123"}
-        client.credentials(**headers)
-        response = client.post("/auth-token/", self.data, format="json")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        token = response.data["token"]
-
-        headers["HTTP_X_DEVICE_MODEL"] = "Nokia"
-        client.credentials(**headers)
-        response = client.post("/auth-token/", {"username": self.second_user.username, "password": self.password},
-                               format="json")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        token = self._create_device(client, "Android 123")["token"]
+        data = self._create_device(
+            client, "Nokia", user_data={"username": self.second_user.username, "password": self.password})
         self.assertEqual(Device.objects.all().count(), 2)
-        device_id = response.data["device_id"]
+        device_id = data["device_id"]
 
-        headers["HTTP_AUTHORIZATION"] = "JWT {}".format(token)
-        headers["HTTP_DEVICE_ID"] = device_id
+        headers = {
+            "HTTP_AUTHORIZATION": "JWT {}".format(token),
+            "HTTP_DEVICE_ID": device_id
+        }
         client.credentials(**headers)
         client.login(**self.data)
         response = client.delete("/device-logout/", format="json")
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(Device.objects.all().count(), 2)
+
+    def test_logout_view(self):
+        client = APIClient()
+
+        # create device
+        data = self._create_device(client, "Android 123")
+        self.assertEqual(Device.objects.all().count(), 1)
+        device_id = data["device_id"]
+
+        headers = {
+            "HTTP_AUTHORIZATION": "JWT {}".format(data["token"]),
+            "HTTP_DEVICE_ID": device_id
+        }
+        client.credentials(**headers)
+        client.login(**self.data)
+        response = client.delete("/device-logout/", format="json")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Device.objects.all().count(), 0)
 
 
 class DeviceRefreshTokenViewsTests(BaseTestCase):

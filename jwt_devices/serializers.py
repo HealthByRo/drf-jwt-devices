@@ -8,6 +8,7 @@ from rest_framework_jwt.settings import api_settings as rfj_settings
 
 from jwt_devices.models import Device
 from jwt_devices.settings import api_settings
+from jwt_devices.utils import get_device_details
 
 User = get_user_model()
 
@@ -39,15 +40,7 @@ class JSONWebTokenSerializer(OriginalJSONWebTokenSerializer):
                     "user": user
                 }
                 if api_settings.JWT_PERMANENT_TOKEN_AUTH:
-                    headers = self.context["request"].META
-                    device_name = headers.get("HTTP_X_DEVICE_MODEL")
-                    user_agent = headers.get("HTTP_USER_AGENT", "")
-                    if not device_name:
-                        device_name = user_agent
-                        device_details = ""
-                    else:
-                        device_details = user_agent
-
+                    device_name, device_details = get_device_details(self.context["request"].META)
                     device = Device.objects.create(
                         user=user, last_request_datetime=timezone.now(),
                         name=device_name, details=device_details)

@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import mixins, status, viewsets
-from rest_framework.exceptions import NotFound
+from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.generics import DestroyAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -57,6 +57,7 @@ class ObtainJSONWebTokenAPIView(OriginalObtainJSONWebToken):
 class DeviceRefreshJSONWebToken(APIView):
     """Refresh JWT token
     API View used to refresh JSON Web Token using permanent token.
+    The DeviceRefreshJSONWebToken view requires the Permanent-Token header to be set in the request headers.
     """
     serializer_class = DeviceTokenRefreshSerializer
     permission_classes = [AllowAny]
@@ -69,15 +70,17 @@ class DeviceRefreshJSONWebToken(APIView):
 
 
 class DeviceLogout(DestroyAPIView):
-    """
-    Logout user by deleting Device.
+    """Logout user by deleting Device.
+    The DeviceLogout view requires the Device-Id header to be set in the request headers.
     """
     queryset = Device.objects.all()
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
         try:
-            return self.get_queryset().get(user=self.request.user, id=self.request.META.get("HTTP_DEVICE_ID"))
+            return self.get_queryset().get(user=self.request.user, id=self.request.META["HTTP_DEVICE_ID"])
+        except KeyError:
+            raise ValidationError(_("Device-Id header must be present in the request headers."))
         except Device.DoesNotExist:
             raise NotFound(_("Device does not exist."))
 

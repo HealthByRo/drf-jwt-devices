@@ -18,7 +18,8 @@ def jwt_devices_get_secret_key(payload=None):
 
 def jwt_devices_payload_handler(user, device=None):
     payload = jwt_payload_handler(user)
-    payload["device_id"] = str(device.pk)
+    if device:
+        payload["device_id"] = str(device.pk)
     return payload
 
 
@@ -61,3 +62,15 @@ def jwt_devices_decode_handler(token):
         issuer=rfj_settings.JWT_ISSUER,
         algorithms=[rfj_settings.JWT_ALGORITHM]
     )
+
+
+def get_device_details(headers):
+    device_name = headers.get("HTTP_X_DEVICE_MODEL")
+    user_agent = headers.get("HTTP_USER_AGENT", "")
+    if not device_name:
+        device_name = user_agent
+        device_details = ""
+    else:
+        device_details = user_agent
+
+    return device_name, device_details
