@@ -6,7 +6,7 @@ from rest_framework.settings import APISettings
 USER_SETTINGS = getattr(settings, "JWT_DEVICES", None)
 
 DEFAULTS = {
-    "JWT_PERMANENT_TOKEN_AUTH": False,
+    "JWT_PERMANENT_TOKEN_AUTH": True,
     "JWT_PERMANENT_TOKEN_EXPIRATION_ACCURACY": datetime.timedelta(minutes=30),
     "JWT_PERMANENT_TOKEN_EXPIRATION_DELTA": datetime.timedelta(days=7),
 

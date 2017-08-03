@@ -16,15 +16,7 @@ To use, add ``jwt_devices`` to your ``INSTALLED_APPS``, and then migrate the pro
 Configuration
 -------------
 
-To enable permanent token authentication, add ``"JWT_PERMANENT_TOKEN_AUTH": True`` to the ``JWT_DEVICES`` setting in
-your project's configuration.
-::
-
-    JWT_DEVICES={
-        "JWT_PERMANENT_TOKEN_AUTH": True
-    }
-
-Also update rest framework's default authentication classes list:
+To enable permanent token authentication, update rest framework's default authentication classes list:
 ::
 
     REST_FRAMEWORK={
@@ -93,6 +85,7 @@ to your ``MIDDLEWARES`` or ``MIDDLEWARE_CLASSES`` (in Django <1.10) in Django se
 
 **Settings**
 
+* ``JWT_PERMANENT_TOKEN_AUTH`` - option to enable/disable the permanent token authentication (default: ``True``)
 * ``JWT_PERMANENT_TOKEN_EXPIRATION_DELTA`` - describes how long can the permanent token live
   (default: ``datetime.timedelta(days=7)``)
 * ``JWT_PERMANENT_TOKEN_EXPIRATION_ACCURACY`` - the accuracy of updating permanent token last request time to decrease
