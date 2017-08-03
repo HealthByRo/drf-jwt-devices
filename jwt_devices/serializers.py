@@ -75,19 +75,19 @@ class DeviceSerializer(serializers.ModelSerializer):
 
 
 class DeviceTokenRefreshSerializer(Serializer):
-    permanent_token = serializers.CharField(required=True)
+    HTTP_PERMANENT_TOKEN = serializers.CharField(required=True)
 
     def validate(self, attrs):
-        permanent_token = attrs["permanent_token"]
+        permanent_token = attrs["HTTP_PERMANENT_TOKEN"]
         try:
             device = Device.objects.get(permanent_token=permanent_token)
         except Device.DoesNotExist:
-            raise serializers.ValidationError({"permanent_token": _("Invalid permanent_token value.")})
+            raise serializers.ValidationError({"HTTP_PERMANENT_TOKEN": _("Invalid permanent_token value.")})
 
         now = datetime.now()
         if now > device.last_request_datetime + api_settings.JWT_PERMANENT_TOKEN_EXPIRATION_DELTA:
             device.delete()
-            raise serializers.ValidationError({"permanent_token": _("Permanent token has expired.")})
+            raise serializers.ValidationError({"HTTP_PERMANENT_TOKEN": _("Permanent token has expired.")})
 
         if now > device.last_request_datetime + api_settings.JWT_PERMANENT_TOKEN_EXPIRATION_ACCURACY:
             device.last_request_datetime = now

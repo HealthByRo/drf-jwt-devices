@@ -46,7 +46,7 @@ Using the API views
 
 **Login & logout view**
 
-When using the regular JWT login or the device logout view, use the ``HTTP_X_DEVICE_MODEL`` header to pass device model
+When using the regular JWT login or the device logout view, use the ``X-Device-Model`` header to pass device model
 (otherwise, user agent will used instead as the name). After a successful login, the permanent token and id of the
 created device will be returned, for example:
 ::
@@ -61,11 +61,11 @@ The ``device_id`` is used to logout the device, so it should be saved on the fro
 example).
 
 To logout a device, make a **DELETE** request to the ``rest_framework_jwt.views.device_logout`` view, passing device's
-id in the ``device_id`` header to identify the device.
+id in the ``Device-Id`` header to identify the device.
 
 **Refresh JWT token using permanent token**
 
-To refresh JWT token, you have to pass the ``permanent_token`` header along with the request to identify the device.
+To refresh JWT token, you have to pass the ``Permanent-Token`` header along with the request to identify the device.
 On success, response will return new JWT token (the same as it does after login).
 
 In case the permanent token has expired, the device will be logged out, and it will require login in again to obtain a
@@ -79,8 +79,8 @@ As you may know, the content of a permanent token is a very fragile information,
 request only when it is needed. To avoid situations in which a front-end developer has incorrectly implemented the
 permanent token authentication on the front-end side and the permanent token value is sent with all requests
 (just like the JWT token), the ``jwt_devices.middleware.PermitHeadersMiddleware`` comes in handy. The middleware looks
-for the ``permanent_token`` in the headers, and checks if the view is not the
-``jwt_devices.views.DeviceRefreshJSONWebToken`` in which the ``permanent_token`` header is obligatory, otherwise it
+for ``Permanent-Token`` in the headers, and checks if the view is not the
+``jwt_devices.views.DeviceRefreshJSONWebToken`` in which the ``Permanent-Token`` header is obligatory, otherwise it
 returns a **400 Bad Request** error.
 
 To use the ``PermitHeadersMiddleware`` in your application, add ``jwt_devices.middleware.PermitHeadersMiddleware``

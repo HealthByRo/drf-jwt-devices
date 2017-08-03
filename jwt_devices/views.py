@@ -75,7 +75,7 @@ class DeviceLogout(DestroyAPIView):
 
     def get_object(self):
         try:
-            return self.get_queryset().get(user=self.request.user, id=self.request.META.get("device_id"))
+            return self.get_queryset().get(user=self.request.user, id=self.request.META.get("HTTP_DEVICE_ID"))
         except Device.DoesNotExist:
             raise NotFound(_("Device does not exist."))
 

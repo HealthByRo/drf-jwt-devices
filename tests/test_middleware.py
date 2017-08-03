@@ -6,7 +6,7 @@ from tests.test_utils import BaseTestCase
 class HeadersCheckViewMixinTests(BaseTestCase):
     def test_disallowing_permanent_token(self):
         client = APIClient()
-        client.credentials(permanent_token="123")
+        client.credentials(HTTP_PERMANENT_TOKEN="123")
         urls = {
             "/auth-token/",
             "/device-logout/",

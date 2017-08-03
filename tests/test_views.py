@@ -83,7 +83,7 @@ class DeviceLogoutViewTests(BaseTestCase):
         device_id = response.data["device_id"]
 
         headers["HTTP_AUTHORIZATION"] = "JWT {}".format(response.data["token"])
-        headers["device_id"] = device_id
+        headers["HTTP_DEVICE_ID"] = device_id
         client.credentials(**headers)
         client.login(**self.data)
         response = client.delete("/device-logout/", format="json")
@@ -109,7 +109,7 @@ class DeviceLogoutViewTests(BaseTestCase):
         device_id = response.data["device_id"]
 
         headers["HTTP_AUTHORIZATION"] = "JWT {}".format(token)
-        headers["device_id"] = device_id
+        headers["HTTP_DEVICE_ID"] = device_id
         client.credentials(**headers)
         client.login(**self.data)
         response = client.delete("/device-logout/", format="json")
@@ -140,12 +140,12 @@ class DeviceRefreshTokenViewsTests(BaseTestCase):
             # test passing permanent token that does not exist in the database
             fake_permanent_token = "23124csfdgfdhthfdfdf"
             self.assertEqual(Device.objects.filter(permanent_token=fake_permanent_token).count(), 0)
-            headers["permanent_token"] = fake_permanent_token
+            headers["HTTP_PERMANENT_TOKEN"] = fake_permanent_token
             client.credentials(**headers)
             response = client.post("/device-refresh-token/", format="json")
             self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-            headers["permanent_token"] = permanent_token
+            headers["HTTP_PERMANENT_TOKEN"] = permanent_token
             client.credentials(**headers)
             response = client.post("/device-refresh-token/", format="json")
             self.assertEqual(response.status_code, status.HTTP_200_OK)

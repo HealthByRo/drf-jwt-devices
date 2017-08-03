@@ -21,10 +21,10 @@ class PermitHeadersMiddleware(object):
 
     def process_view(self, request, view_func, view_args, view_kwargs):
         view_cls = getattr(view_func, "cls", None)
-        if (view_cls and api_settings.JWT_PERMANENT_TOKEN_AUTH and request.META.get("permanent_token") and
+        if (view_cls and api_settings.JWT_PERMANENT_TOKEN_AUTH and request.META.get("HTTP_PERMANENT_TOKEN") and
                 view_cls != views.DeviceRefreshJSONWebToken):
             return JsonResponse({
-                "permanent_token": {
-                    "details": _("Using the permanent_token header is disallowed for {}").format(type(view_cls))
+                "HTTP_PERMANENT_TOKEN": {
+                    "details": _("Using the Permanent-Token header is disallowed for {}").format(type(view_cls))
                 }
             }, status=status.HTTP_400_BAD_REQUEST)
