@@ -1,6 +1,5 @@
-from datetime import datetime
-
 from django.contrib.auth import authenticate, get_user_model
+from django.utils import timezone
 from django.utils.translation import ugettext as _
 from rest_framework import serializers
 from rest_framework_jwt.compat import Serializer
@@ -50,7 +49,7 @@ class JSONWebTokenSerializer(OriginalJSONWebTokenSerializer):
                         device_details = user_agent
 
                     device = Device.objects.create(
-                        user=user, last_request_datetime=datetime.now(),
+                        user=user, last_request_datetime=timezone.now(),
                         name=device_name, details=device_details)
 
                     data["token"] = jwt_devices_encode_handler(jwt_devices_payload_handler(user, device=device))
@@ -84,7 +83,7 @@ class DeviceTokenRefreshSerializer(Serializer):
         except Device.DoesNotExist:
             raise serializers.ValidationError({"HTTP_PERMANENT_TOKEN": _("Invalid permanent_token value.")})
 
-        now = datetime.now()
+        now = timezone.now()
         if now > device.last_request_datetime + api_settings.JWT_PERMANENT_TOKEN_EXPIRATION_DELTA:
             device.delete()
             raise serializers.ValidationError({"HTTP_PERMANENT_TOKEN": _("Permanent token has expired.")})
