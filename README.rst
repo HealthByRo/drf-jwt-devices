@@ -1,6 +1,6 @@
-===========
-aa-intercom
-===========
+===============
+drf-jwt-devices
+===============
 |travis|_ |pypi|_ |coveralls|_ |requiresio|_
 
 Permanent token feature for `Django Rest Framework JWT <https://github.com/GetBlimp/django-rest-framework-jwt>`_
@@ -113,5 +113,5 @@ Support
 .. |coveralls| image:: https://coveralls.io/repos/github/ArabellaTech/drf-jwt-devices/badge.svg?branch=master
 .. _coveralls: https://coveralls.io/github/ArabellaTech/drf-jwt-devices
 
-.. |requiresio| image:: https://requires.io/github/ArabellaTech/jwt-devices/requirements.svg?branch=master
+.. |requiresio| image:: https://requires.io/github/ArabellaTech/drf-jwt-devices/requirements.svg?branch=master
 .. _requiresio: https://requires.io/github/ArabellaTech/drf-jwt-devices/requirements/
