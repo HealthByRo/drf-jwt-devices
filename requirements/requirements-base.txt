@@ -1,1 +1,2 @@
 djangorestframework-jwt>=1.11.0
+six>=1.10.0

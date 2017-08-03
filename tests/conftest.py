@@ -26,6 +26,7 @@ def pytest_configure():
             "django.middleware.csrf.CsrfViewMiddleware",
             "django.contrib.auth.middleware.AuthenticationMiddleware",
             "django.contrib.messages.middleware.MessageMiddleware",
+            "jwt_devices.middleware.PermitHeadersMiddleware",
         ),
         INSTALLED_APPS=(
             "django.contrib.auth",
@@ -45,7 +46,7 @@ def pytest_configure():
         ),
         REST_FRAMEWORK={
             "DEFAULT_AUTHENTICATION_CLASSES": [
-                "rest_framework_jwt.authentication.JSONWebTokenAuthentication"
+                "jwt_devices.authentication.PermanentTokenAuthentication"
             ]
         }
     )
