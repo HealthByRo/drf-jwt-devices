@@ -26,7 +26,7 @@ def pytest_configure():
             "django.middleware.csrf.CsrfViewMiddleware",
             "django.contrib.auth.middleware.AuthenticationMiddleware",
             "django.contrib.messages.middleware.MessageMiddleware",
-            "jwt_devices.middleware.PermitHeadersMiddleware",
+            "jwt_devices.middleware.PermittedHeadersMiddleware",
         ),
         INSTALLED_APPS=(
             "django.contrib.auth",

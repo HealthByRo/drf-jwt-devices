@@ -6,7 +6,7 @@ from jwt_devices import views
 from jwt_devices.settings import api_settings
 
 
-class PermitHeadersMiddleware(object):
+class PermittedHeadersMiddleware(object):
     """
     Middleware used to disallow sending the permanent_token header in other requests than during permanent token
     refresh to make sure naive FE developers do not send the fragile permanent token with each request.
