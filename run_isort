@@ -1,0 +1,1 @@
+isort --recursive -p jwt_devices -sd THIRDPARTY -m 0 -w 120 -y -s venv -s .tox "$@"
