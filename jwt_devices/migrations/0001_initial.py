@@ -20,6 +20,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Device',
             fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('permanent_token', models.CharField(max_length=255, unique=True, serialize=False)),
                 ('jwt_secret', models.UUIDField(default=uuid.uuid4, editable=False)),
                 ('created', models.DateTimeField(auto_now_add=True)),
