@@ -9,6 +9,10 @@ python:
 
 matrix:
   fast_finish: true
+  exclude:
+    - python: 3.5
+    - python: 3.6
+
   include:
     - python: 3.6
       env: TOXENV=py36-flake8
