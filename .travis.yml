@@ -4,19 +4,38 @@ cache: pip
 sudo: false
 
 python:
-  - "2.7"
-  - "3.4"
   - "3.5"
   - "3.6"
 
 matrix:
   fast_finish: true
+  include:
+    - python: 3.6
+      env: TOXENV=py36-flake8
+
+    - python: 3.5
+      env: TOXENV=py35-django1.11-drf3.5
+    - python: 3.5
+      env: TOXENV=py35-django1.11-drf3.6
+    - python: 3.5
+      env: TOXENV=py35-django1.11-drf3.7
+    - python: 3.5
+      env: TOXENV=py35-django1.11-drf3.8
+
+    - python: 3.6
+      env: TOXENV=py36-django1.11-drf3.5
+    - python: 3.6
+      env: TOXENV=py36-django1.11-drf3.6
+    - python: 3.6
+      env: TOXENV=py36-django1.11-drf3.7
+    - python: 3.6
+      env: TOXENV=py36-django1.11-drf3.8
 
 install:
   - pip install tox coverage coveralls
 
 script:
-  - tox -e $TOX_ENV
+  - tox
 
 after_success:
   - coverage report -m
