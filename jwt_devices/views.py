@@ -3,7 +3,7 @@ from datetime import datetime
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import mixins, status, viewsets
 from rest_framework.exceptions import NotFound, ValidationError
-from rest_framework.generics import GenericAPIView, DestroyAPIView
+from rest_framework.generics import DestroyAPIView, GenericAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_jwt.settings import api_settings as rfj_settings
