@@ -69,7 +69,7 @@ class DeviceSerializer(serializers.ModelSerializer):
 class DeviceTokenRefreshSerializer(Serializer):
     HTTP_PERMANENT_TOKEN = serializers.CharField(required=True)
 
-    def validate(self, attrs):
+    def _get_device(self, attrs):
         permanent_token = attrs["HTTP_PERMANENT_TOKEN"]
         try:
             device = Device.objects.get(permanent_token=permanent_token)
@@ -85,6 +85,10 @@ class DeviceTokenRefreshSerializer(Serializer):
             device.last_request_datetime = now
             device.save()
 
+        return device
+
+    def validate(self, attrs):
+        device = self._get_device(attrs)
         payload = jwt_devices_payload_handler(device.user, device=device)
         return {
             "token": jwt_devices_encode_handler(payload),

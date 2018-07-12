@@ -98,8 +98,8 @@ To use the ``jwt_devices.middleware.PermittedHeadersMiddleware`` in your applica
 Support
 =======
 * Django 1.8 - 1.11
-* Django Rest Framework 3.1 - 3.5
-* Python 2.7, 3.4, 3.5, 3.6
+* Django Rest Framework 3.1 - 3.8
+* Python 3.4 - 3.6
 
 .. |travis| image:: https://secure.travis-ci.org/ArabellaTech/drf-jwt-devices.svg?branch=master
 .. _travis: http://travis-ci.org/ArabellaTech/drf-jwt-devices

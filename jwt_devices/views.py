@@ -3,10 +3,9 @@ from datetime import datetime
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import mixins, status, viewsets
 from rest_framework.exceptions import NotFound, ValidationError
-from rest_framework.generics import DestroyAPIView
+from rest_framework.generics import DestroyAPIView, GenericAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework_jwt.settings import api_settings as rfj_settings
 from rest_framework_jwt.views import ObtainJSONWebToken as OriginalObtainJSONWebToken
 
@@ -54,7 +53,7 @@ class ObtainJSONWebTokenAPIView(OriginalObtainJSONWebToken):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class DeviceRefreshJSONWebToken(APIView):
+class DeviceRefreshJSONWebToken(GenericAPIView):
     """Refresh JWT token
     API View used to refresh JSON Web Token using permanent token.
     The DeviceRefreshJSONWebToken view requires the Permanent-Token header to be set in the request headers.
@@ -62,8 +61,8 @@ class DeviceRefreshJSONWebToken(APIView):
     serializer_class = DeviceTokenRefreshSerializer
     permission_classes = [AllowAny]
 
-    def post(self, request):
-        serializer = self.serializer_class(data=request.META)
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.META)
         if serializer.is_valid(raise_exception=True):
             data = jwt_devices_response_payload_handler(request=request, **serializer.validated_data)
             return Response(data, status=status.HTTP_200_OK)
