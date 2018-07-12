@@ -1,11 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [1.1.1] - 2018-07-12
+## [1.2.0] - 2018-07-12
 ### Added
 - few minor utilities to make the project be easier to extend
 ### Fixed
 - passing custom serializer context to devices refresh view
+### Removed
+- support for Python 2.7
 
 ## [1.1.0] - 2017-08-14
 ### Added
