@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [1.2.1] - 2018-09-26
+### Fixed
+- minor bugs
+
 ## [1.2.0] - 2018-07-12
 ### Added
 - few minor utilities to make the project be easier to extend
