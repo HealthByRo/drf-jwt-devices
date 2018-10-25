@@ -42,8 +42,7 @@ class ObtainJSONWebTokenAPIView(OriginalObtainJSONWebToken):
 
             response = Response(response_data)
             if rfj_settings.JWT_AUTH_COOKIE:
-                expiration = (datetime.utcnow() +
-                              rfj_settings.JWT_EXPIRATION_DELTA)
+                expiration = (datetime.utcnow() + rfj_settings.JWT_EXPIRATION_DELTA)
                 response.set_cookie(rfj_settings.JWT_AUTH_COOKIE,
                                     token,
                                     expires=expiration,
