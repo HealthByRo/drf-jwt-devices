@@ -1,14 +1,12 @@
 def pytest_configure():
     import django
     from django.conf import settings
+    from django.core.management import call_command
 
     settings.configure(
         DEBUG_PROPAGATE_EXCEPTIONS=True,
         DATABASES={
-            "default": {
-                "ENGINE": "django.db.backends.sqlite3",
-                "NAME": ":memory:"
-            }
+            "default": {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memory:"}
         },
         SITE_ID=1,
         SECRET_KEY="not very secret in tests",
@@ -35,20 +33,17 @@ def pytest_configure():
             "django.contrib.sites",
             "django.contrib.messages",
             "django.contrib.staticfiles",
-
             "rest_framework",
             "rest_framework_jwt",
             "jwt_devices",
             "tests",
         ),
-        PASSWORD_HASHERS=(
-            "django.contrib.auth.hashers.MD5PasswordHasher",
-        ),
+        PASSWORD_HASHERS=("django.contrib.auth.hashers.MD5PasswordHasher",),
         REST_FRAMEWORK={
             "DEFAULT_AUTHENTICATION_CLASSES": [
                 "jwt_devices.authentication.PermanentTokenAuthentication"
             ]
-        }
+        },
     )
 
     try:
@@ -57,9 +52,7 @@ def pytest_configure():
     except ImportError:
         pass
     else:
-        settings.INSTALLED_APPS += (
-            "oauth_provider",
-        )
+        settings.INSTALLED_APPS += ("oauth_provider",)
 
     try:
         if django.VERSION >= (1, 8):
@@ -69,13 +62,14 @@ def pytest_configure():
     except ImportError:
         pass
     else:
-        settings.INSTALLED_APPS += (
-            "provider",
-            "provider.oauth2",
-        )
+        settings.INSTALLED_APPS += ("provider", "provider.oauth2")
 
     try:
         import django
+
         django.setup()
     except AttributeError:
         pass
+
+    call_command("migrate")
+    call_command("makemigrations", "--dry-run", "--check")
