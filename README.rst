@@ -17,7 +17,8 @@ Configuration
 -------------
 
 To enable permanent token authentication, update rest framework's default authentication classes list:
-::
+
+.. code-block:: python
 
     REST_FRAMEWORK={
         "DEFAULT_AUTHENTICATION_CLASSES": [
@@ -26,7 +27,8 @@ To enable permanent token authentication, update rest framework's default authen
     }
 
 Another step is to add a few urls to your url patterns, and register the ``DeviceViewSet``:
-::
+
+.. code-block:: python
 
   from jwt_devices import views
   from rest_framework.routers import DefaultRouter
@@ -49,7 +51,8 @@ Using the API views
 When using the regular JWT login or the device logout view, use the ``X-Device-Model`` header to pass device model
 (otherwise, user agent will used instead as the name). After a successful login, the permanent token and id of the
 created device will be returned, for example:
-::
+
+.. code-block:: javascript
 
   {
       "token": "ads344fdgfd5454yJ0eAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VynRlYW1AYXJhYmVsLmxh",
