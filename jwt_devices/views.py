@@ -77,7 +77,7 @@ class DeviceLogout(DestroyAPIView):
     def get_object(self):
         try:
             return self.get_queryset().get(user=self.request.user, id=self.request.META["HTTP_DEVICE_ID"])
-        except KeyError:
+        except (KeyError, ValueError):
             raise ValidationError(_("Device-Id header must be present in the request headers."))
         except Device.DoesNotExist:
             raise NotFound(_("Device does not exist."))
