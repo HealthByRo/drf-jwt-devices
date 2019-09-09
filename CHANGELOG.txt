@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [1.2.2] - 2019-09-09
+### Fixed
+- fixed exception check in views
+
 ## [1.2.1] - 2018-10-25
 ### Added
 - a test to enforce completeness of migrations
