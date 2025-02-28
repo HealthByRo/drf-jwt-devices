@@ -62,6 +62,7 @@ setup(
     license="MIT",
     description="Permanent token authentication for django-rest-framework-jwt",
     long_description=read_file("README.md"),
+    long_description_content_type="text/markdown",
     author="Michal Proszek",
     author_email="michalp@ro.co",
     packages=get_packages("jwt_devices"),
@@ -69,7 +70,7 @@ setup(
     zip_safe=False,
     install_requires=required_to_install,
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 7 - Inactive",
         "Environment :: Web Environment",
         "Framework :: Django",
         "Intended Audience :: Developers",
