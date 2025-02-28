@@ -3,7 +3,6 @@
 # drf-jwt-devices
 
 [![PyPI version](https://img.shields.io/pypi/v/drf-jwt-devices.svg)](https://pypi.python.org/pypi/drf-jwt-devices)
-[![Coverage Status](https://coveralls.io/repos/github/ArabellaTech/drf-jwt-devices/badge.svg?branch=master)](https://coveralls.io/github/ArabellaTech/drf-jwt-devices)
 
 Permanent token feature for [Django Rest Framework JWT](https://github.com/GetBlimp/django-rest-framework-jwt)
 

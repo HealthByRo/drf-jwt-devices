@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [1.2.3] - 2025-02-28
+### Archiving
+- This project is no longer maintained. Please consider using a different library.
+
 ## [1.2.2] - 2019-09-09
 ### Fixed
 - fixed exception check in views
